@@ -72,6 +72,22 @@
     return true;
   };
 
+  BloomFilter.prototype.export = function() {
+    return this.buckets;
+  };
+
+  BloomFilter.prototype.size = function(numItems,errRate) { if(errRate===undefined){ errRate = 0.000001;  } /*
+    based on http://hur.st/bloomfilter
+    numItems = Number of items in the filter
+    p = Probability of false positives, float between 0 and 1 or a number indicating 1-in-p
+    m = Number of bits in the filter
+    k = Number of hash functions
+    */
+    var m = Math.ceil((numItems * Math.log(errRate)) / Math.log(1.0 / (Math.pow(2.0, Math.log(2.0)))));
+      var  k = Math.round(Math.log(2.0) * m / numItems);
+    return {m:m,k:k};
+  };
+
   // Fowler/Noll/Vo hashing.
   function fnv_1a(v) {
     var n = v.length,

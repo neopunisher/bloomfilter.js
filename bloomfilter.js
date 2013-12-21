@@ -73,7 +73,7 @@
   };
 
   BloomFilter.prototype.export = function() {
-    return this.buckets;
+    return JSON.stringify([].slice.call(this.buckets));
   };
 
   BloomFilter.prototype.size = function(numItems,errRate) { if(errRate===undefined){ errRate = 0.000001;  } /*
